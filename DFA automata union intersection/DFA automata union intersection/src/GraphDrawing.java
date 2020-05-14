@@ -1,3 +1,4 @@
+
 import static javax.swing.JOptionPane.showMessageDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +54,7 @@ public class GraphDrawing extends JFrame implements MouseListener, MouseMotionLi
     //Data of graph
     ArrayList<Vertex> Vertexs = new ArrayList<>();
     ArrayList<Edge_> Edge_s = new ArrayList<>();
-ArrayList<Integer> max = new ArrayList<>();
+    ArrayList<Integer> max = new ArrayList<>();
     Object selected = null;
     TempEdge TempEdge = null; //TempEdge edge
 
@@ -63,7 +64,7 @@ ArrayList<Integer> max = new ArrayList<>();
 
     //set font 
     Font sanSerifFont = new Font("SanSerif", Font.PLAIN, 24);
-    int maxall =0;
+    int maxall = 0;
     //find size monitor
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -86,7 +87,7 @@ ArrayList<Integer> max = new ArrayList<>();
     JRadioButton sr = new JRadioButton();
     JButton delete = new JButton();
     JButton in = new JButton();
-    Backup backup ;
+    Backup backup;
     JButton openButt = new JButton();
     JButton helpButt = new JButton();
     JComboBox cb = new JComboBox();
@@ -97,13 +98,12 @@ ArrayList<Integer> max = new ArrayList<>();
     int i = 1;
     JLabel helpString = new JLabel();
     JLabel helpString1 = new JLabel();
-   int maxst = 0;
+    int maxst = 0;
     //-----###e
     JPanel menubar = new JPanel();
     int shift = 50;
 
     //////////////////////////////// Backup ////////////////////////////////
-  
     class Backup {
 
         ArrayList<Vertex> VertexsBackup;
@@ -111,8 +111,9 @@ ArrayList<Integer> max = new ArrayList<>();
         String from = "";
         ArrayList<Integer> max = new ArrayList<>();
         int count;
-  int maxst = 0;
-    int maxall =0;
+        int maxst = 0;
+        int maxall = 0;
+
         public Backup() {
             count = ll.size();
             this.VertexsBackup = (ArrayList<Vertex>) Vertexs.clone();
@@ -122,7 +123,7 @@ ArrayList<Integer> max = new ArrayList<>();
     }
 
     GraphDrawing() {
-       
+
         super("canvas");
         // create a empty canvas 
         c = new Canvas() {
@@ -165,15 +166,14 @@ ArrayList<Integer> max = new ArrayList<>();
         saveButt.setFont(sanSerifFont);
         saveButt.setFont(sanSerifFont);
         helpString.setFont(sanSerifFont);
- helpString1.setFont(sanSerifFont);
+        helpString1.setFont(sanSerifFont);
         boxSave.setBackground(Color.white);
         boxOpen.setBackground(Color.white);
 
         boxHelp.setBackground(Color.white);
         frameHelp.add(boxHelp);
-         boxHelp1.setBackground(Color.white);
+        boxHelp1.setBackground(Color.white);
         frameHelp1.add(boxHelp1);
-
 
         cb.setBounds((screenSize.width - getWidth()) - 400 + shift, 150, 300, 23);
         getContentPane().add(cb);
@@ -213,7 +213,7 @@ ArrayList<Integer> max = new ArrayList<>();
         add.setText("add");
         add.setBounds((screenSize.width - getWidth()) - 400 + 150 + shift, 200, 150, 23);
         getContentPane().add(add);
-        
+
         getContentPane().add(saveButt);
         saveButt.setText("save");
         saveButt.setBounds((screenSize.width - getWidth()) - 400 + shift, 100, 150, 23);
@@ -231,9 +231,9 @@ ArrayList<Integer> max = new ArrayList<>();
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 if (no) {
-                    
+
                     boolean x = true;
                     for (Edge_ Edge_1 : Edge_s) {
                         if (Edge_1.weight.equals("-")) {
@@ -241,7 +241,7 @@ ArrayList<Integer> max = new ArrayList<>();
                             break;
                         }
                     }
-                    if (x&&backup ==null) {
+                    if (x && backup == null) {
                         Backup backup = new Backup();
                         selected = null;
                         Vertexs = new ArrayList<>();
@@ -254,106 +254,111 @@ ArrayList<Integer> max = new ArrayList<>();
                             i++;
                         }
                     }
-                    else{
-                         if (backup.VertexsBackup.size() != 0) {
+                    if (x && !(backup == null)) {
+                        if (backup.VertexsBackup.size() != 0) {
                             cb.addItem("DFA" + String.valueOf(i));
-                          
+
                             all.put("DFA" + String.valueOf(i), backup);
                             i++;
                         }
                     }
+                    
+                        if (!x) {
+                            showMessageDialog(null, "กรุณาใสอักขระ");
+                        }
+                    
                 }
             }
         });
-     
-show2.addActionListener(new ActionListener() {
+
+        show2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 String datatb = backup.from;
-                 String[] str1 = datatb.split("-");
-                 int re = 0;
-                 int count=0;
-                 max= backup.max;
-                 maxst = backup.maxst;
-                   maxall = backup.maxall;
-                String [][] datareal =new String [ maxst][maxall+2];        
-                String [] columnreal =new String[maxall+2];
-                columnreal[0]="Status";
-                columnreal[maxall+1]="Queue";
-                 for(int num=0;num<maxall;num++){
-                       columnreal[num+1]=""+(char)(97+num);  
-                    }                
-                 for (int i = 0; i < datareal.length;i++) {
-                     for (int j = 0; j < datareal[0].length; j++) {
-                         if(count ==str1.length ){
-                             break;
-                         }
-                         String check =str1[count];
-                         for (int l = 0; l < check.length()-1; l++) {
-                             if(check.charAt(l)=='['&&check.charAt(l+1)=='['){
-                             check=check.substring(l+1);
-                             str1[count]=check;
-                         } 
-                              if(check.charAt(l)==']'&&check.charAt(l+1)==']'){
-                             check=check.substring(0,l+1);
-                             str1[count]=check;
-                         }  
-
-                         }
-            
-                         if(maxall-max.get(i+re)>0&&max.get(i+re)+1==j){
-                   
-                             datareal[i][j]="-";                                          
-                         }                    
-                         else{
-                             
-                         datareal[i][j]=str1[count];
-                         if(str1[count].indexOf("[]")!=-1){
-                            
-                              ++i;
-                              re--;
-                          }
-                          count++;
-                          
-                                  }                        
-                     }   
+                String datatb = backup.from;
+                String[] str1 = datatb.split("-");
+                int re = 0;
+                int count = 0;
+                max = backup.max;
+                maxst = backup.maxst;
+                maxall = backup.maxall;
+                String[][] datareal = new String[maxst][maxall + 2];
+                String[] columnreal = new String[maxall + 2];
+                columnreal[0] = "Status";
+                columnreal[maxall + 1] = "Queue";
+                for (int num = 0; num < maxall; num++) {
+                    columnreal[num + 1] = "" + (char) (97 + num);
                 }
-                   System.out.println("columnreal[j]");
-                 for (int j = 0; j < columnreal.length; j++) {
-                     System.out.println(columnreal[j]);
-                }
-                  for (int i = 0; i < datareal.length;i++) {
-                     for (int j = 0; j < datareal[0].length; j++) {
-                         System.out.print(datareal[i][j]+"#");
-                     }   System.out.println("end");
-                }
-         JFrame f=new JFrame();  
-                
-   
-    JTable jt=new JTable(datareal,columnreal);  
-    jt.setBounds(30,40,200,300); 
-    TableColumnModel modelcolonne = jt.getColumnModel();
-     TableModel model =jt.getModel();
-     int total = modelcolonne.getColumnCount();
-                for (int i = 0; i < total; i++) {
-                    int taille=0;
-                    int total2=model.getRowCount();
-                    for (int j = 0; j < total2; j++) {
-                        if(model.getValueAt(j, i)!=null){
-                        int taille2=model.getValueAt(j, i).toString().length()*7;
-                        if(taille2>taille){
-                            taille=taille2;
+                for (int i = 0; i < datareal.length; i++) {
+                    for (int j = 0; j < datareal[0].length; j++) {
+                        if (count == str1.length) {
+                            break;
                         }
-                    }modelcolonne.getColumn(i).setPreferredWidth(taille);
-                        
+                        String check = str1[count];
+                        for (int l = 0; l < check.length() - 1; l++) {
+                            if (check.charAt(l) == '[' && check.charAt(l + 1) == '[') {
+                                check = check.substring(l + 1);
+                                str1[count] = check;
+                            }
+                            if (check.charAt(l) == ']' && check.charAt(l + 1) == ']') {
+                                check = check.substring(0, l + 1);
+                                str1[count] = check;
+                            }
+
+                        }
+
+                        if (maxall - max.get(i + re) > 0 && max.get(i + re) + 1 == j) {
+
+                            datareal[i][j] = "-";
+                        } else {
+
+                            datareal[i][j] = str1[count];
+                            if (str1[count].indexOf("[]") != -1) {
+
+                                ++i;
+                                re--;
+                            }
+                            count++;
+
+                        }
                     }
                 }
-    JScrollPane sp=new JScrollPane(jt);    
-    f.add(sp);          
-    f.setSize(600,400);  
-   
-    f.setVisible(true);    
-    
+                System.out.println("columnreal[j]");
+                for (int j = 0; j < columnreal.length; j++) {
+                    System.out.println(columnreal[j]);
+                }
+                for (int i = 0; i < datareal.length; i++) {
+                    for (int j = 0; j < datareal[0].length; j++) {
+                        System.out.print(datareal[i][j] + "#");
+                    }
+                    System.out.println("end");
+                }
+                JFrame f = new JFrame();
+
+                JTable jt = new JTable(datareal, columnreal);
+                jt.setBounds(30, 40, 200, 300);
+                TableColumnModel modelcolonne = jt.getColumnModel();
+                TableModel model = jt.getModel();
+                int total = modelcolonne.getColumnCount();
+                for (int i = 0; i < total; i++) {
+                    int taille = 0;
+                    int total2 = model.getRowCount();
+                    for (int j = 0; j < total2; j++) {
+                        if (model.getValueAt(j, i) != null) {
+                            int taille2 = model.getValueAt(j, i).toString().length() * 7;
+                            if (taille2 > taille) {
+                                taille = taille2;
+                            }
+                        }
+                        modelcolonne.getColumn(i).setPreferredWidth(taille);
+
+                    }
+                }
+                JScrollPane sp = new JScrollPane(jt);
+                f.add(sp);
+                f.setSize(600, 400);
+
+                f.setVisible(true);
+
             }
         });
         clear.addActionListener(new ActionListener() {
@@ -396,211 +401,205 @@ show2.addActionListener(new ActionListener() {
                     backup = backupp;
 
                     draw();
-                 
+
                 }
             }
         });
 
-
         uninon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 backup = new Backup();
                 if (ca) {
-                list();
-                ca = false;
-            }
-            jFrame.setVisible(false);
+                    list();
+                    ca = false;
+                }
+                jFrame.setVisible(false);
                 joon();
-               int kkk = 0;
-               maxst=0;
-               maxall=kkk;
-               max = new ArrayList<>();
-               String data="";
-               String kk="";
-               String jj="";
-              
-               backup = all.get((String) cb2.getItemAt(0));
-               maxst+= cb2.getItemCount()-1;
-               
+                int kkk = 0;
+                maxst = 0;
+                maxall = kkk;
+                max = new ArrayList<>();
+                String data = "";
+                String kk = "";
+                String jj = "";
+
+                backup = all.get((String) cb2.getItemAt(0));
+                maxst += cb2.getItemCount() - 1;
+
                 for (int j = 1; j < cb2.getItemCount(); j++) {
-                  
-                
-                try {
-                   kkk=chaeck(backup, all.get((String) cb2.getItemAt(j)));
-                    cartesian(backup, all.get((String) cb2.getItemAt(j)));
-                } catch (Exception r) {
-                    //  Block of code to handle errors
+
+                    try {
+                        kkk = chaeck(backup, all.get((String) cb2.getItemAt(j)));
+                        cartesian(backup, all.get((String) cb2.getItemAt(j)));
+                    } catch (Exception r) {
+                        //  Block of code to handle errors
+                    }
+                    // print();
+
+                    createAutomata(true);
+                    backup = new Backup();
+                    Vertexs = backup.VertexsBackup;
+                    Edge_s = backup.Edge_sBackup;
+                    maxst += st.size();
+                    for (int k = 0; k < st.size(); k++) {
+                        System.out.print(" st.size() " + st.size() + "st.size()");
+                        String str = "";
+                        String[] str1 = st.get(k).toString().split(",");
+                        for (int l = 0; l < str1.length; l++) {
+                            if (l % 2 == 1) {
+                                str1[l] = " , r" + str1[l].substring(2);
+                            }
+
+                            str += str1[l];
+
+                        }
+                        data += str + "-";
+                        System.out.print(" | " + str + " ");
+                        kk += " | " + str + " ";
+                        if (k < cha.size()) {
+                            str = "";
+                            str1 = cha.get(k).toString().split(",");
+                            for (int l = 0; l < str1.length; l++) {
+                                if (l % 2 == 1) {
+                                    str1[l] = " , r" + str1[l].substring(2) + "-";
+                                }
+                                str += str1[l];
+                                data += str1[l];
+                            }
+                            System.out.print(" | " + str + " | ");
+                            kk += " | " + str + " | ";
+                        }
+                        if (k < qqqqq.size()) {
+                            System.out.println(qqqqq.get(k).toString() + "  ");
+                            kk += qqqqq.get(k).toString() + "  \n";
+                            data += qqqqq.get(k).toString() + "-";
+                        }
+                        max.add(kkk);
+                        System.out.println("/////////////////////--" + kkk);
+                    }
+                    kk += "\n\n";
+                    System.out.println(data);
+                    maxall = Math.max(kkk, maxall);
                 }
-               // print();
-                
-                createAutomata(true);
-                backup = new Backup();
-                Vertexs =   backup.VertexsBackup;
-                Edge_s = backup.Edge_sBackup;
-                maxst+= st.size();
-                 for (int k = 0; k < st.size(); k++) {
-                     System.out.print( " st.size() "+st.size() + "st.size()");
-            String str = "";
-                String[] str1 = st.get(k).toString().split(",");
-                for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2);
-                   } 
-                        
-            str += str1[l];
-           
-               
-                }
-                 data += str+"-";
-            System.out.print( " | "+str + " ");
-            kk +=  " | "+str + " ";
-            if (k < cha.size()) {
-                str = "";
-              str1 = cha.get(k).toString().split(",");
-                for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2)+"-";
-                   } 
-            str += str1[l];
-            data += str1[l];
-                }
-                System.out.print(" | "+str + " | ");
-                 kk +=  " | "+str + " | ";
-            }
-             if (k < qqqqq.size()) {
-                System.out.println(qqqqq.get(k).toString()+ "  ");
-                kk += qqqqq.get(k).toString()+ "  \n";
-                data += qqqqq.get(k).toString()+"-";
-            }
-                 max.add(kkk);
-                     System.out.println("/////////////////////--"+kkk);
-                 }
-              kk+="\n\n";     
-                System.out.println(data);
-                maxall=Math.max(kkk,  maxall);
-        }
-                
+
                 draw();
                 System.out.println(kkk);
-                
-                
-                if(sr.isSelected()){
-                removetrap(kkk);
+
+                if (sr.isSelected()) {
+                    removetrap(kkk);
                 }
-                jj+=" |   Staus   | ";
-                    for(int num=0;num<kkk;num++){
-                        jj+="      "+((char)(97+num))+"      ";  
-                    }
-                jj+="  |                    Queue    \n";
+                jj += " |   Staus   | ";
+                for (int num = 0; num < kkk; num++) {
+                    jj += "      " + ((char) (97 + num)) + "      ";
+                }
+                jj += "  |                    Queue    \n";
                 System.out.print(jj);
                 System.out.println(kk);
-               // backup.from = jj+kk;
-                    backup.from = data;
-                    backup.max = (ArrayList<Integer>) max.clone();  
-                    backup.maxall = maxall;
-                    backup.maxst = maxst;
+                // backup.from = jj+kk;
+                backup.from = data;
+                backup.max = (ArrayList<Integer>) max.clone();
+                backup.maxall = maxall;
+                backup.maxst = maxst;
             }
         });
         intersection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-         backup = new Backup();
-                if (ca) {
-                list();
-                ca = false;
-            }
-            jFrame.setVisible(false);
-                joon();
-               int kkk = 0;
-               maxst=0;
-               maxall=kkk;
-               max = new ArrayList<>();
-               String data="";
-               String kk="";
-               String jj="";
-              
-               backup = all.get((String) cb2.getItemAt(0));
-               maxst+= cb2.getItemCount()-1;
-               
-                for (int j = 1; j < cb2.getItemCount(); j++) {
-                  
-                
-                try {
-                   kkk=chaeck(backup, all.get((String) cb2.getItemAt(j)));
-                    cartesian(backup, all.get((String) cb2.getItemAt(j)));
-                } catch (Exception r) {
-                    //  Block of code to handle errors
-                }
-               // print();
-                
-                createAutomata(false);
                 backup = new Backup();
-                Vertexs =   backup.VertexsBackup;
-                Edge_s = backup.Edge_sBackup;
-                maxst+= st.size();
-                 for (int k = 0; k < st.size(); k++) {
-                     System.out.print( " st.size() "+st.size() + "st.size()");
-            String str = "";
-                String[] str1 = st.get(k).toString().split(",");
-                for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2);
-                   } 
-                        
-            str += str1[l];
-           
-               
+                if (ca) {
+                    list();
+                    ca = false;
                 }
-                 data += str+"-";
-            System.out.print( " | "+str + " ");
-            kk +=  " | "+str + " ";
-            if (k < cha.size()) {
-                str = "";
-              str1 = cha.get(k).toString().split(",");
-                for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2)+"-";
-                   } 
-            str += str1[l];
-            data += str1[l];
+                jFrame.setVisible(false);
+                joon();
+                int kkk = 0;
+                maxst = 0;
+                maxall = kkk;
+                max = new ArrayList<>();
+                String data = "";
+                String kk = "";
+                String jj = "";
+
+                backup = all.get((String) cb2.getItemAt(0));
+                maxst += cb2.getItemCount() - 1;
+
+                for (int j = 1; j < cb2.getItemCount(); j++) {
+
+                    try {
+                        kkk = chaeck(backup, all.get((String) cb2.getItemAt(j)));
+                        cartesian(backup, all.get((String) cb2.getItemAt(j)));
+                    } catch (Exception r) {
+                        //  Block of code to handle errors
+                    }
+                    // print();
+
+                    createAutomata(false);
+                    backup = new Backup();
+                    Vertexs = backup.VertexsBackup;
+                    Edge_s = backup.Edge_sBackup;
+                    maxst += st.size();
+                    for (int k = 0; k < st.size(); k++) {
+                        System.out.print(" st.size() " + st.size() + "st.size()");
+                        String str = "";
+                        String[] str1 = st.get(k).toString().split(",");
+                        for (int l = 0; l < str1.length; l++) {
+                            if (l % 2 == 1) {
+                                str1[l] = " , r" + str1[l].substring(2);
+                            }
+
+                            str += str1[l];
+
+                        }
+                        data += str + "-";
+                        System.out.print(" | " + str + " ");
+                        kk += " | " + str + " ";
+                        if (k < cha.size()) {
+                            str = "";
+                            str1 = cha.get(k).toString().split(",");
+                            for (int l = 0; l < str1.length; l++) {
+                                if (l % 2 == 1) {
+                                    str1[l] = " , r" + str1[l].substring(2) + "-";
+                                }
+                                str += str1[l];
+                                data += str1[l];
+                            }
+                            System.out.print(" | " + str + " | ");
+                            kk += " | " + str + " | ";
+                        }
+                        if (k < qqqqq.size()) {
+                            System.out.println(qqqqq.get(k).toString() + "  ");
+                            kk += qqqqq.get(k).toString() + "  \n";
+                            data += qqqqq.get(k).toString() + "-";
+                        }
+                        max.add(kkk);
+                        System.out.println("/////////////////////--" + kkk);
+                    }
+                    kk += "\n\n";
+                    System.out.println(data);
+                    maxall = Math.max(kkk, maxall);
                 }
-                System.out.print(" | "+str + " | ");
-                 kk +=  " | "+str + " | ";
-            }
-             if (k < qqqqq.size()) {
-                System.out.println(qqqqq.get(k).toString()+ "  ");
-                kk += qqqqq.get(k).toString()+ "  \n";
-                data += qqqqq.get(k).toString()+"-";
-            }
-                 max.add(kkk);
-                     System.out.println("/////////////////////--"+kkk);
-                 }
-              kk+="\n\n";     
-                System.out.println(data);
-                maxall=Math.max(kkk,  maxall);
-        }
-                
+
                 draw();
                 System.out.println(kkk);
-                
-                
-                if(sr.isSelected()){
-                removetrap(kkk);
+
+                if (sr.isSelected()) {
+                    removetrap(kkk);
                 }
-                jj+=" |   Staus   | ";
-                    for(int num=0;num<kkk;num++){
-                        jj+="      "+((char)(97+num))+"      ";  
-                    }
-                jj+="  |                    Queue    \n";
+                jj += " |   Staus   | ";
+                for (int num = 0; num < kkk; num++) {
+                    jj += "      " + ((char) (97 + num)) + "      ";
+                }
+                jj += "  |                    Queue    \n";
                 System.out.print(jj);
                 System.out.println(kk);
-               // backup.from = jj+kk;
-                    backup.from = data;
-                    backup.max = (ArrayList<Integer>) max.clone();  
-                    backup.maxall = maxall;
-                    backup.maxst = maxst;}
+                // backup.from = jj+kk;
+                backup.from = data;
+                backup.max = (ArrayList<Integer>) max.clone();
+                backup.maxall = maxall;
+                backup.maxst = maxst;
+            }
         });
 
         put.addActionListener(new ActionListener() {
@@ -608,7 +607,7 @@ show2.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-           
+
                 System.out.println();
                 for (int j = 0; j < cb2.getItemCount(); j++) {
 
@@ -623,7 +622,7 @@ show2.addActionListener(new ActionListener() {
                 v = true;
             }
         });
-       
+
         openButt.setText("open");
         openButt.setBounds((screenSize.width - getWidth()) - 400 + 150 + shift, 100, 150, 23);
         getContentPane().add(openButt);
@@ -656,206 +655,198 @@ show2.addActionListener(new ActionListener() {
         //setVisible(true);
         add(c);
         add(menubar);
-     //   list();
- //jFrame.setVisible( false);
+        //   list();
+        //jFrame.setVisible( false);
         // setSize(1500, 1000);
         show();
     }
 
     //
-    int chaeckk(Backup x,Backup y){
-            int maxaf=maxaf(x,y);
-       
-             no = true;
-         
+    int chaeckk(Backup x, Backup y) {
+        int maxaf = maxaf(x, y);
 
-        return  maxaf;
-        
+        no = true;
+
+        return maxaf;
+
     }
-    
-    int chaeck(Backup x,Backup y){
-            int maxaf=maxaf(x,y);
-           System.out.println("1");
-                  thecharr(x, maxaf);
-                  System.out.println("2");
-          thecharr(y, maxaf);
-             no = true;
-         
 
-        return  maxaf;
-        
+    int chaeck(Backup x, Backup y) {
+        int maxaf = maxaf(x, y);
+        System.out.println("1");
+        thecharr(x, maxaf);
+        System.out.println("2");
+        thecharr(y, maxaf);
+        no = true;
+
+        return maxaf;
+
     }
-     
-     int maxaf(Backup x,Backup y){
-         int max = Integer.MIN_VALUE;
-      for (Vertex Vertex1 : x.VertexsBackup) {
-             for (Edge_ Edge_1 : x.Edge_sBackup) {
-            if (Edge_1.vertexA.equals(Vertex1) && Edge_1.weight.length() != 0) {
-                String[] str = Edge_1.weight.split(",");
-                for (String string : str) {
-                //    System.out.println(string);
-                  max = Math.max(max, string.charAt(0)-96);
-                   } 
-                }
-             }
-     }
-      for (Vertex Vertex1 : y.VertexsBackup) {
-             for (Edge_ Edge_1 : y.Edge_sBackup) {
-            if (Edge_1.vertexA.equals(Vertex1) && Edge_1.weight.length() != 0) {
-                String[] str = Edge_1.weight.split(",");
-                for (String string : str) {
-                 //   System.out.println(string+" "+((int) (string.charAt(0)-96)));
-                 //   System.out.println("Max : "+max);
-                  max = Math.max(max, string.charAt(0)-96);
-                   } 
-                }
-             }
-     }
-      
-         //System.out.println("asdasdasd     "+   max);
-     return max;
-     }
-     void removetrap(int maxaf) {
-           ArrayList<Vertex> Vertexss = new ArrayList<>();
-                        for (int j = 0; j < Vertexs.size(); j++) {
-             Vertex  Vertex=  Vertexs.get(j);
-        for (int k = 0; k< Edge_s .size(); k++) {
-                Edge_ Edge_1 =Edge_s .get(k);     
-            if (Edge_1.vertexA.equals(Vertex)&&Edge_1.vertexB.equals(Vertex) && Edge_1.weight.length() != 0) {
-                 System.out.println(Vertex.name);
-                     String[] str = Edge_1.weight.split(",");
-                    
-                     System.out.println(str.length+"   "+maxaf+" "+Vertex.ap);
-                     for (String string : str) {
-                     System.out.println(string+",");
-                }
-                       if(str.length == maxaf){
-                           if(!Vertex.ap){
-                            
-                             Vertexss.add(Vertex);
-                         
-                              
-                              draw();
-                           }
-                       }
-               }       
-        }  
 
-                            
-                 }
-                         ArrayList<Edge_> Edge_ss = new ArrayList<>();
-                            for (Vertex Vertexs1 : Vertexss) {
-                                System.out.println(Vertexs1.name);
-                                for (int j = 0; j <  Edge_s .size(); j++) {
-                                  if(Edge_s.get(j).vertexB.equals(Vertexs1)){
-                                      Edge_ss.add(Edge_s.get(j));
-                                  }
-                                }
-                                Vertexs.remove(Vertexs1);
-
-                                
-                            }
-                            for (Edge_ Edge_s1 : Edge_ss) {
-                                Edge_s.remove(Edge_s1);
-                                draw();
-             
-         }
-                 
-             }
-  
-    
-         void thecharr(Backup backup ,int maxaf) {
-             System.out.println("max"+maxaf);
-             boolean max[] =new boolean[maxaf]; 
-              System.out.println("maxxxx"+max.length);
-                        for (int j = 0; j < backup.VertexsBackup.size(); j++) {
-                 
-             
-               
-             Vertex  Vertex=  backup.VertexsBackup.get(j);
-        for (int k = 0; k< backup.Edge_sBackup.size(); k++) {
-                Edge_ Edge_1 = backup.Edge_sBackup.get(k);
-                
-         
-            if (Edge_1.vertexA.equals(Vertex) && Edge_1.weight.length() != 0) {
-            
-             System.out.println(Edge_1.weight);
-                     String[] str = Edge_1.weight.split(",");
-                for (String string : str) {
-                     
-                    max[string.charAt(0)-97] = true;
-                       
-                       
-                }
-                
-                }       
-        }  
-        boolean f =false;
-                 for (boolean b : max) {
-                    if(!b){
-                        f=!b;
-                    }
-                 }
-                 System.out.println(f);
-                 if(f){
-                 String str ="";
-        String str2 ="";
-                 for (int l = 0; l < max.length; l++) {
-                   str2 +=(char) (97+l)+",";
-                     if(!max[l]){
-                          str +=(char) (97+l)+",";
-                     }
-                 }
-                 str = str.substring(0, str.length()-1);
-                 str2 = str2.substring(0, str2.length()-1);
-                   System.out.print(str2+"  ");
-                    System.out.println(str);
-          Vertexs  =backup.VertexsBackup;
-          Edge_s = backup.Edge_sBackup;
-          for (Edge_ e : Edge_s) {
-            if (e.vertexA != null) {
-                int id = e.vertexA.id;
-                for (Vertex v : Vertexs) {
-                    if (v.id == id) {
-                        e.vertexA = v;
-                        break;
-                    }
-                }
-            }
-            if (e.vertexB != null) {
-                int id = e.vertexB.id;
-                for (Vertex v : Vertexs) {
-                    if (v.id == id) {
-                        e.vertexB = v;
-                        break;
+    int maxaf(Backup x, Backup y) {
+        int max = Integer.MIN_VALUE;
+        for (Vertex Vertex1 : x.VertexsBackup) {
+            for (Edge_ Edge_1 : x.Edge_sBackup) {
+                if (Edge_1.vertexA.equals(Vertex1) && Edge_1.weight.length() != 0) {
+                    String[] str = Edge_1.weight.split(",");
+                    for (String string : str) {
+                        //    System.out.println(string);
+                        max = Math.max(max, string.charAt(0) - 96);
                     }
                 }
             }
         }
-             
-         Vertex TempVertex = new Vertex(0, 0);
-                Vertexs.add(TempVertex);
-                 
-                draw();
-              
-         Edge_ E = new Edge_(Vertex, TempVertex);
-         E.weight = str;
-         Edge_s.add(E);
-      
-         draw();
-     
-          E = new Edge_(TempVertex,TempVertex);
-          E.weight= str2;
-          Edge_s.add(E);
-         
-               draw();
-         
-                 }
-           max =new boolean[maxaf]; 
-                 
-             }
-     draw();
+        for (Vertex Vertex1 : y.VertexsBackup) {
+            for (Edge_ Edge_1 : y.Edge_sBackup) {
+                if (Edge_1.vertexA.equals(Vertex1) && Edge_1.weight.length() != 0) {
+                    String[] str = Edge_1.weight.split(",");
+                    for (String string : str) {
+                        //   System.out.println(string+" "+((int) (string.charAt(0)-96)));
+                        //   System.out.println("Max : "+max);
+                        max = Math.max(max, string.charAt(0) - 96);
+                    }
+                }
+            }
+        }
+
+        //System.out.println("asdasdasd     "+   max);
+        return max;
     }
+
+    void removetrap(int maxaf) {
+        ArrayList<Vertex> Vertexss = new ArrayList<>();
+        for (int j = 0; j < Vertexs.size(); j++) {
+            Vertex Vertex = Vertexs.get(j);
+            for (int k = 0; k < Edge_s.size(); k++) {
+                Edge_ Edge_1 = Edge_s.get(k);
+                if (Edge_1.vertexA.equals(Vertex) && Edge_1.vertexB.equals(Vertex) && Edge_1.weight.length() != 0) {
+                    System.out.println(Vertex.name);
+                    String[] str = Edge_1.weight.split(",");
+
+                    System.out.println(str.length + "   " + maxaf + " " + Vertex.ap);
+                    for (String string : str) {
+                        System.out.println(string + ",");
+                    }
+                    if (str.length == maxaf) {
+                        if (!Vertex.ap) {
+
+                            Vertexss.add(Vertex);
+
+                            draw();
+                        }
+                    }
+                }
+            }
+
+        }
+        ArrayList<Edge_> Edge_ss = new ArrayList<>();
+        for (Vertex Vertexs1 : Vertexss) {
+            System.out.println(Vertexs1.name);
+            for (int j = 0; j < Edge_s.size(); j++) {
+                if (Edge_s.get(j).vertexB.equals(Vertexs1)) {
+                    Edge_ss.add(Edge_s.get(j));
+                }
+            }
+            Vertexs.remove(Vertexs1);
+
+        }
+        for (Edge_ Edge_s1 : Edge_ss) {
+            Edge_s.remove(Edge_s1);
+            draw();
+
+        }
+
+    }
+
+    void thecharr(Backup backup, int maxaf) {
+        System.out.println("max" + maxaf);
+        boolean max[] = new boolean[maxaf];
+        System.out.println("maxxxx" + max.length);
+        for (int j = 0; j < backup.VertexsBackup.size(); j++) {
+
+            Vertex Vertex = backup.VertexsBackup.get(j);
+            for (int k = 0; k < backup.Edge_sBackup.size(); k++) {
+                Edge_ Edge_1 = backup.Edge_sBackup.get(k);
+
+                if (Edge_1.vertexA.equals(Vertex) && Edge_1.weight.length() != 0) {
+
+                    System.out.println(Edge_1.weight);
+                    String[] str = Edge_1.weight.split(",");
+                    for (String string : str) {
+
+                        max[string.charAt(0) - 97] = true;
+
+                    }
+
+                }
+            }
+            boolean f = false;
+            for (boolean b : max) {
+                if (!b) {
+                    f = !b;
+                }
+            }
+            System.out.println(f);
+            if (f) {
+                String str = "";
+                String str2 = "";
+                for (int l = 0; l < max.length; l++) {
+                    str2 += (char) (97 + l) + ",";
+                    if (!max[l]) {
+                        str += (char) (97 + l) + ",";
+                    }
+                }
+                str = str.substring(0, str.length() - 1);
+                str2 = str2.substring(0, str2.length() - 1);
+                System.out.print(str2 + "  ");
+                System.out.println(str);
+                Vertexs = backup.VertexsBackup;
+                Edge_s = backup.Edge_sBackup;
+                for (Edge_ e : Edge_s) {
+                    if (e.vertexA != null) {
+                        int id = e.vertexA.id;
+                        for (Vertex v : Vertexs) {
+                            if (v.id == id) {
+                                e.vertexA = v;
+                                break;
+                            }
+                        }
+                    }
+                    if (e.vertexB != null) {
+                        int id = e.vertexB.id;
+                        for (Vertex v : Vertexs) {
+                            if (v.id == id) {
+                                e.vertexB = v;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                Vertex TempVertex = new Vertex(0, 0);
+                Vertexs.add(TempVertex);
+
+                draw();
+
+                Edge_ E = new Edge_(Vertex, TempVertex);
+                E.weight = str;
+                Edge_s.add(E);
+
+                draw();
+
+                E = new Edge_(TempVertex, TempVertex);
+                E.weight = str2;
+                Edge_s.add(E);
+
+                draw();
+
+            }
+            max = new boolean[maxaf];
+
+        }
+        draw();
+    }
+
     void helpButtAction(ActionEvent e) {
         String help = "<html>";
         help += "Double click for create Vertex<br>";
@@ -868,15 +859,14 @@ show2.addActionListener(new ActionListener() {
         help += "Click on character on edge then press delete for remove edge<br>";
         help += "Press Button save for save Graph on canvas to json file<br>";
         help += "Press Button open for open Graph json file to canvas<br>";
-        
-        
+
         helpString.setText(help);
         boxHelp.add(helpString);
         boxHelp.setAutoscrolls(true);
         frameHelp.setBounds(screenSize.width / 2 - 500, screenSize.height / 2 - 200, 1000, 400);
         frameHelp.setVisible(true);
         String help1 = "<html>";
-  
+
         help1 += "CTRL+E ทำการเรียกหน้าจอที่ใช้สำหรับการใส่อักขระ<br>";
         help1 += "CTRL+R ทำการลดขนาดของ automata<br>";
         help1 += "CTRL+T ทำการเพิ่มขนาดของ automata<br>";
@@ -884,11 +874,12 @@ show2.addActionListener(new ActionListener() {
         help1 += "CTRL+N ทำการสุ่มตำแหน่งของสถานะที่อยูบนหน้าจอ<br>";
         help1 += "CTRL+K ช่วยในการจัดรูป<br>";
         help1 += "CTRL+L ช่วยในการจัดรูป<br>";
+        help1 += "สามารถใช้สัญลักษณ์ลูกศร บนแป้นพิมพ์คอมพิวเตอร์ ในการขยับ Automata<br>";
         
         helpString1.setText(help1);
         boxHelp1.add(helpString1);
         boxHelp1.setAutoscrolls(true);
-        frameHelp1.setBounds(screenSize.width / 2 - 500, screenSize.height / 2 - 200, 1000, 300);
+        frameHelp1.setBounds(screenSize.width / 2 - 500, screenSize.height / 2 - 200, 1000, 350);
         frameHelp1.setVisible(true);
     }
 
@@ -1131,8 +1122,6 @@ show2.addActionListener(new ActionListener() {
         return min;
     }
 
-
-
     void outrun(Vertex s1, Vertex s2) {
         int x, y;
 
@@ -1157,51 +1146,51 @@ show2.addActionListener(new ActionListener() {
     JPanel listOfFiles;
     JButton p = new JButton("+");
     JPanel contentPane;
-    void joon(){
-        int kkk = 0; 
+
+    void joon() {
+        int kkk = 0;
         for (int j = 1; j < cb2.getItemCount(); j++) {
-                  
-              
-              
-                   kkk=Math.max(chaeckk(backup, all.get((String) cb2.getItemAt(j))),kkk);}
-                
-      Backup backup = all.get(cb.getSelectedItem());
-      if(ll.size()!=kkk){
-         int x = ll.size()-kkk;
-         if(x>0){
-             downdown();
-         }
-          
-          else{
-             upup();
-            
-          }
-          joon();
-          
-      }
-      
+
+            kkk = Math.max(chaeckk(backup, all.get((String) cb2.getItemAt(j))), kkk);
+        }
+
+        Backup backup = all.get(cb.getSelectedItem());
+        if (ll.size() != kkk) {
+            int x = ll.size() - kkk;
+            if (x > 0) {
+                downdown();
+            } else {
+                upup();
+
+            }
+            joon();
+
+        }
+
     }
-    void upup(){
-                if (o < 26) {
-                   
-                    o++;
-                    JCheckBox h = new JCheckBox("" + (char) k,true);
-                  
-                    ll.add(h);
-                    listOfFiles.add(h);
-                    k++;
-                   
-                     jFrame.setVisible(false);
-                }
+
+    void upup() {
+        if (o < 26) {
+
+            o++;
+            JCheckBox h = new JCheckBox("" + (char) k, true);
+
+            ll.add(h);
+            listOfFiles.add(h);
+            k++;
+
+            jFrame.setVisible(false);
+        }
     }
-     void downdown(){
-          if (o != 0) {
-                    ll.remove(ll.size() - 1);
-                    k--;
-                    o--;
-                    listOfFiles.remove(o);
-                    jFrame.setVisible(false);
-                }
+
+    void downdown() {
+        if (o != 0) {
+            ll.remove(ll.size() - 1);
+            k--;
+            o--;
+            listOfFiles.remove(o);
+            jFrame.setVisible(false);
+        }
     }
     JFrame jFrame;
     JButton n = new JButton("-");
@@ -1210,7 +1199,7 @@ show2.addActionListener(new ActionListener() {
      *
      */
     @Override
-    public  void list() {
+    public void list() {
         jFrame = new JFrame("Checkable list");
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jFrame.addWindowListener(new WindowAdapter() {
@@ -1241,12 +1230,12 @@ show2.addActionListener(new ActionListener() {
         jScrollPane.setPreferredSize(new Dimension(50, 250));
         contentPane.add(jScrollPane);
         jFrame.add(contentPane);
-    
+
         p.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (o < 26) {
-           
+
                     o++;
                     JCheckBox h = new JCheckBox("" + (char) k);
                     ll.add(h);
@@ -1256,7 +1245,7 @@ show2.addActionListener(new ActionListener() {
                 }
             }
         });
-        
+
         n.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1284,28 +1273,28 @@ show2.addActionListener(new ActionListener() {
         System.out.println();
         for (int j = 0; j < st.size(); j++) {
             String str = "";
-                String[] str1 = st.get(j).toString().split(",");
-                for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2);
-                   } 
-            str += str1[l];
+            String[] str1 = st.get(j).toString().split(",");
+            for (int l = 0; l < str1.length; l++) {
+                if (l % 2 == 1) {
+                    str1[l] = " , r" + str1[l].substring(2);
                 }
-            System.out.print( " | "+str + " ");
+                str += str1[l];
+            }
+            System.out.print(" | " + str + " ");
             if (j < cha.size()) {
                 str = "";
-              str1 = cha.get(j).toString().split(",");
+                str1 = cha.get(j).toString().split(",");
                 for (int l = 0; l < str1.length; l++) {
-                        if(l%2==1){
-               str1[l]  = " , r"+str1[l].substring(2);
-                   } 
-            str += str1[l];
+                    if (l % 2 == 1) {
+                        str1[l] = " , r" + str1[l].substring(2);
+                    }
+                    str += str1[l];
                 }
-                System.out.print(" | "+str + " | ");
+                System.out.print(" | " + str + " | ");
             }
 
             if (j < qqqqq.size()) {
-                System.out.println(qqqqq.get(j).toString()+ " | ");
+                System.out.println(qqqqq.get(j).toString() + " | ");
             }
         }
     }
@@ -1320,11 +1309,11 @@ show2.addActionListener(new ActionListener() {
     ArrayList<Edge_> edg = new ArrayList<>();
 
     void createAutomata(boolean tt) {
-      
+
         ver = new ArrayList<>();
         edg = new ArrayList<>();
         nq = new HashMap<>();
-        
+
         for (ArrayList<Vertex> arrayList : otoo) {
             Vertex m = new Vertex(0, 0);
             ver.add(m);
@@ -1386,7 +1375,7 @@ show2.addActionListener(new ActionListener() {
             System.out.println(edge_.vertexA.name + "  " + edge_.vertexA.ap + " " + edge_.vertexB.name + "  " + edge_.vertexB.ap);
 
         }
-        
+
         alll.Edge_sBackup = (ArrayList<Edge_>) edg.clone();
         alll.VertexsBackup = (ArrayList<Vertex>) ver.clone();
         Vertex.idGen = 0;
@@ -1436,7 +1425,7 @@ show2.addActionListener(new ActionListener() {
         cha = new ArrayList<>();
         st = new ArrayList<>();
         otoo = new ArrayList<>();
-         qqqqq = new ArrayList<>();
+        qqqqq = new ArrayList<>();
         int max = Math.max(x1.count, x2.count);
 
         ArrayList<Vertex> c = new ArrayList<>();
@@ -1492,9 +1481,9 @@ show2.addActionListener(new ActionListener() {
         String[] st2 = q.toString().split(",");
         String str = "";
         for (int j = 0; j < st2.length; j++) {
-            if(j%2==1){
-               st2[j]  = " , r"+st2[j].substring(2);
-                   } 
+            if (j % 2 == 1) {
+                st2[j] = " , r" + st2[j].substring(2);
+            }
             str += st2[j];
         }
         qqqqq.add(str);
@@ -1504,8 +1493,7 @@ show2.addActionListener(new ActionListener() {
         st.add(c);
         re(c.get(0), c.get(1), x1, x2, max);
     }
-    
-    
+
     ArrayList<String> qqqqq = new ArrayList<>();
 
     Vertex strat(Vertex v, Backup x, String e) {
@@ -1692,11 +1680,12 @@ show2.addActionListener(new ActionListener() {
 
         // Draw  horizontal arrow starting in (0, 0)
         //  g.drawLine(0, 0, len, 0);
-           int ARR_SIZE = (int) (vertexA.r/3.6);
-         if(vertexA.ap)
-        len -= vertexA.r+6;
-         else
-         len -= vertexA.r;   
+        int ARR_SIZE = (int) (vertexA.r / 3.6);
+        if (vertexA.ap) {
+            len -= vertexA.r + 6;
+        } else {
+            len -= vertexA.r;
+        }
         g.fillPolygon(new int[]{len, len - ARR_SIZE, len - ARR_SIZE, len},
                 new int[]{0, -ARR_SIZE, ARR_SIZE, 0}, 4);
     }
@@ -2112,7 +2101,7 @@ show2.addActionListener(new ActionListener() {
                         Vertex = s;
                     }
                 }
-          
+
                 if (Vertex != null) {
                     if (Vertex != TempEdge.vertexA) {
                         double angle = Math.atan2(TempEdge.vertexA.y - Vertex.y, TempEdge.vertexA.x - Vertex.x);
@@ -2192,11 +2181,11 @@ show2.addActionListener(new ActionListener() {
         }
     }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+}
